@@ -54,6 +54,7 @@ function createWindow() {
 
 // App event handlers
 app.whenReady().then(() => {
+  startServer();
   createWindow();
 
   app.on('activate', () => {
@@ -71,6 +72,12 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
+  }
+});
+
+app.on('will-quit', () => {
+  if (serverProcess) {
+    serverProcess.kill();
   }
 });
 
